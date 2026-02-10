@@ -1,3 +1,11 @@
+# /// script
+# dependencies = [
+#   "ruamel.yaml",
+#   "pandas",
+# ]
+# ///
+
+
 import ruamel.yaml as yaml
 import pandas as pd
 import dataclasses
@@ -30,6 +38,7 @@ def main():
 
     print(df["contribution"].value_counts())
     df = df[df["contribution"] != "trivial"]
+    df = df[df["contribution"] != "substantial+did_not_respond"] # Ivan
     print("Total authors = ", df.shape[0])
 
     # for _, row in df.sort_values("name").iterrows():

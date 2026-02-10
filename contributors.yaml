@@ -494,7 +494,7 @@ contributors:
   lines_added: 476
   lines_deleted: 112
   lines_net: 364
-  contribution: substantial
+  contribution: substantial+did_not_respond
   affiliations:
   - Department of Human Genetics, McGill University, Montreal, QC H3A 0C7, Canada
 
@@ -578,7 +578,7 @@ contributors:
   - Department of Statistics, University of Michigan, Ann Arbor, MI, 48109, USA
 
 - github_username: winni2k
-  name: Kretzschumar, Warren W.
+  name: Kretzschmar, Warren W.
   emails:
   - wwk@warrenwk.com
   orcid: https://orcid.org/0000-0002-2575-0807
