@@ -15,7 +15,7 @@ yes    Jeremy Guez
 yes    Benjamin C. Haller
 yes    Andrew D. Kern
 yes    Lloyd Kirk
-no    Ivan Krukov
+yes    Ivan Krukov
 yes    Hanbin Lee
 yes    Brieuc Lehmann
 yes    Hossameldin Loay
