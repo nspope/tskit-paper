@@ -145,7 +145,7 @@ section 2 (file formats).
 
 This section is about which named on-disk file formats each library
 can read or write, including each library's *native* binary
-serialization format.
+serialisation format.
 
 ### Efficient binary format
 - **tskit (✓):** the `.trees` file format
@@ -504,7 +504,7 @@ serialization format.
 
 ---
 
-## 8. Visualization
+## 8. Visualisation
 
 ### SVG tree drawing
 - **tskit (✓):** [`Tree.draw_svg`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.Tree.draw_svg)
@@ -516,7 +516,7 @@ serialization format.
 - **DendroPy (blank):** no SVG drawing (TikZ output is the closest
   vector format — see below).
 
-### Tree-sequence (multi-tree) visualization
+### Tree-sequence (multi-tree) visualisation
 - **tskit (✓):** [`TreeSequence.draw_svg`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.draw_svg)
   draws all trees along the genome with shared coordinate axes.
 - **ARGneedle-lib (blank):** not exposed.
