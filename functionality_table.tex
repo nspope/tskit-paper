@@ -21,51 +21,51 @@ Operation & ARGneedle-lib & matUtils (BTE) & DendroPy \\
 Succinct tree-sequence file format & & & \\
 Table-based data API & & & \\
 VCF import/export & & \checkmark & \\
-Newick export & & \checkmark & \checkmark \\
+Newick export & \checkmark & \checkmark & \checkmark \\
 FASTA / alignment export & & \checkmark & \checkmark \\
 NEXUS / NeXML I/O & & & \checkmark \\
 \hline[dashed]
 \SetCell[c=4]{c} \textbf{Tree operations}\\
 \hline[dashed]
-Iterate trees along a genome & \checkmark & & \\
-Tree traversal (pre-/post-order) & \checkmark & \checkmark & \checkmark \\
+Iterate trees along a genome & $\circ$ & & \\
+Tree traversal (pre-/post-order) & $\circ$ & \checkmark & \checkmark \\
 MRCA and common-ancestor queries & \checkmark & \checkmark & \checkmark \\
-Branch length and total branch length & \checkmark & \checkmark & \checkmark \\
-Tree topology comparison (KC, RF) & & $\circ$ & \checkmark \\
-Tree balance and shape statistics & & & \checkmark \\
+Branch length and total branch length & $\circ$ & \checkmark & \checkmark \\
+Tree topology comparison (KC, RF) & \checkmark & & \checkmark \\
+Tree balance and shape statistics & & $\circ$ & \checkmark \\
 \hline[dashed]
 \SetCell[c=4]{c} \textbf{Tree-sequence editing}\\
 \hline[dashed]
 Simplify (sample-restricted history) & & & \\
-Subset by sample or clade & $\circ$ & \checkmark & \checkmark \\
+Subset by sample or clade & & \checkmark & \checkmark \\
 Union of tree sequences & & & \\
-Keep / delete genomic intervals & & & \\
-Trim flanking regions & & & \\
+Keep / delete genomic intervals & $\circ$ & & \\
+Trim flanking regions & \checkmark & & \\
 \hline[dashed]
 \SetCell[c=4]{c} \textbf{Population-genetic statistics}\\
 \hline[dashed]
-Nucleotide diversity ($\pi$), segregating sites & & & \\
-Tajima's $D$ & & & \\
+Nucleotide diversity ($\pi$), segregating sites & & $\circ$ & \checkmark \\
+Tajima's $D$ & & & \checkmark \\
 $F_{ST}$ and divergence & & & \\
 $f$-statistics ($f_2$, $f_3$, $f_4$, Patterson's $D$) & & & \\
-Allele frequency spectrum (one-way and joint) & & & \\
+Allele frequency spectrum (one-way and joint) & & & $\circ$ \\
 Linkage disequilibrium & & & \\
 Branch-mode statistics on trees & & & \\
 \hline[dashed]
 \SetCell[c=4]{c} \textbf{Ancestry and relatedness}\\
 \hline[dashed]
-IBD segment extraction & \checkmark & & \\
+IBD segment extraction & $\circ$ & & \\
 Genealogical nearest neighbours (GNN) & & & \\
 Genetic relatedness matrix & \checkmark & & \\
 Pairwise divergence / coalescence times & \checkmark & $\circ$ & $\circ$ \\
-Mean descendants & & & \\
+Mean descendants & & $\circ$ & \\
 \hline[dashed]
 \SetCell[c=4]{c} \textbf{Mutations and variants}\\
 \hline[dashed]
-Variant / genotype iteration & & \checkmark & \\
+Variant / genotype iteration & $\circ$ & \checkmark & \\
 Haplotype reconstruction & & \checkmark & \\
-Mutation simulation on trees & & & $\circ$ \\
-Mutation placement / parsimony & & \checkmark & $\circ$ \\
+Mutation simulation on trees & \checkmark & & \checkmark \\
+Mutation placement / parsimony & \checkmark & \checkmark & \\
 \hline[dashed]
 \SetCell[c=4]{c} \textbf{Visualization}\\
 \hline[dashed]
