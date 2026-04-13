@@ -1,0 +1,118 @@
+\documentclass{article}
+
+\usepackage{geometry}
+\geometry{a4paper}
+
+\usepackage[superscript,biblabel]{cite}
+\bibliographystyle{naturemag}
+\usepackage[hidelinks]{hyperref}
+\usepackage{authblk}
+\usepackage{tabularray}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+% Make affiliations run inline
+\renewcommand\Affilfont{\small}
+\renewcommand\Authfont{\normalsize}
+
+\makeatletter
+\renewcommand\AB@affilsepx{;\hspace{0.6em}\protect\Affilfont}
+\makeatother
+
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thesubsection}{\arabic{subsection}}
+
+\begin{document}
+
+\title{Population-scale Ancestral Recombination Graphs with tskit 1.0\\
+\large Supplementary Information}
+
+\input{authors.tex}
+
+\date{}
+\maketitle
+
+\subsection*{Published tools using tskit}
+We performed a search for published software using tskit.
+To be included in this list, the software must be described in a publication
+as a named tool intended for reuse and must use tskit.
+This list is intentionally conservative, and does not include
+(for example) publications depending on bespoke analysis
+pipelines using tskit.
+For each tool in Table S1, we list: its name (with a clickable
+hyperlink to its source code repository);
+the main implementation
+language(s) of the tool based on GitHub summaries;
+the DOI (with clickable hyperlink) of the publication in which this
+tool was first described (or, in the case of SLiM, the first
+publication in which tskit-based features were described);
+and the year of publication and number of citations to this
+publication according to data from OpenAlex
+(\url{https://openalex.org}) retrieved on 2026-01-23.
+
+\input{tools_table.tex}
+
+\subsection*{Tskit functionality and benchmarks}
+In this section we provide an overview of tskit's functionality,
+how this overlaps with adjacent libraries, and summarise
+performance benchmarks performed in previous publications.
+
+To give a sense of the breadth of functionality provided by tskit,
+Table S2 lists properties and operations provided by tskit
+broken into broad categories.
+There is no direct competitor to tskit, so a head-to-head feature
+comparison is not possible; instead, we contrast tskit with three
+Python libraries that target adjacent niches:
+ARGneedle-lib\cite{zhang2023biobank}, which infers and analyses
+ancestral recombination graphs from biobank-scale data;
+the BTE interface (\url{https://github.com/jmcbroome/BTE})
+for matUtils\cite{mcbroome2021daily},
+a toolkit for manipulating and analysing mutation-annotated trees of SARS-CoV-2;
+and DendroPy\cite{sukumaran2010dendropy}, a long-established
+general-purpose phylogenetic scripting library.
+For each operation we mark whether the comparison library offers a
+comparable feature.
+The list is illustrative rather than exhaustive and reflects
+library state at the time of writing.
+
+Tskit is the result of more than a decade of sustained development,
+and the algorithmic advances it represents have been described and benchmarked in
+a series of publications. The succinct tree sequence data format
+and the core algorithms for sequential tree construction
+were first introduced as part of the msprime coalescent
+simulator in \cite{kelleher2016efficient}. [Mention the
+theoretical algorithmic results.] This paper demonstrated
+the efficiency of the approach in a benchmark that illustrated
+that using the succinct tree sequence format and efficient
+tree iteration was more than a million times faster than accessing
+the trees individually using Newick and the currently available
+libraries in a simulation with 100,000 individuals.
+
+The data model was generalised to enable forwards-time simulations
+in \cite{kelleher2018efficient}, and the columnar tables API.
+The tskit library itself was first introduced here. The critical
+``simplify'' method was described in detail and the time and space
+complexity analysed rigorously. This function is the core method
+required for forwards-time ARG simulations, and
+is now used in varied applications~\cite{haller2018tree}.
+
+The genealogical nearest neighbourhs (GNN) statisic was introduced
+in~\cite{kelleher2019inferring}.
+
+The general API for computing population genetics statistics
+was introduced in~\cite{ralph2020efficiently}, which also introduced
+the concept of ``branch based statistics''. Along with a rigorous
+theoretical analysis, benchmarks against existing libraries showed
+that tskit's implementation was up to 100,000 times faster.
+
+[Summarise also: \cite{fritze2026forest}, \cite{lehmann2026on}
+and \cite{lee2026genetic}. Although Lee et al 2026 doesn't describe
+updates to tskit itself (I think) it has benchmarks of the GRM
+against argneedle-lib.]
+
+\input{functionality_table.tex}
+
+\bibliography{paper}
+
+\end{document}

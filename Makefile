@@ -1,16 +1,23 @@
 FIGURES=figure.pdf
 
-paper.pdf: paper.tex authors.tex tools_table.tex functionality_table.tex paper.bib ${FIGURES}
+all: paper.pdf supp.pdf
+
+paper.pdf: paper.tex authors.tex paper.bib ${FIGURES}
 	pdflatex paper.tex
 	bibtex paper
+	pdflatex paper.tex
+	pdflatex paper.tex
+
+supp.pdf: supp.tex authors.tex tools_table.tex functionality_table.tex paper.bib
+	pdflatex supp.tex
 	bibtex supp
-	pdflatex paper.tex
-	pdflatex paper.tex
+	pdflatex supp.tex
+	pdflatex supp.tex
 
 arxiv-submission.tar.gz:
 	rm -fR arxiv-submission
 	mkdir arxiv-submission
-	cp paper.tex authors.tex tools_table.tex functionality_table.tex naturemag.bst paper.bib figure.pdf ./arxiv-submission/
+	cp paper.tex supp.tex authors.tex tools_table.tex functionality_table.tex naturemag.bst paper.bib figure.pdf ./arxiv-submission/
 	tar -zcvf arxiv-submission.tar.gz arxiv-submission
 
 paper.ps: paper.dvi
@@ -19,7 +26,6 @@ paper.ps: paper.dvi
 paper.dvi: paper.tex paper.bib
 	latex paper.tex
 	bibtex paper
-	bibtex supp
 	latex paper.tex
 	latex paper.tex
 
