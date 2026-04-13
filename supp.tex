@@ -3,8 +3,8 @@
 \usepackage{geometry}
 \geometry{a4paper}
 
-\usepackage[superscript,biblabel]{cite}
-\bibliographystyle{naturemag}
+\usepackage[round,authoryear]{natbib}
+\bibliographystyle{plainnat}
 \usepackage[hidelinks]{hyperref}
 \usepackage{authblk}
 \usepackage{tabularray}
@@ -54,62 +54,99 @@ publication according to data from OpenAlex
 \input{tools_table.tex}
 
 \subsection*{Tskit functionality and benchmarks}
-In this section we provide an overview of tskit's functionality,
-how this overlaps with adjacent libraries, and summarise
-performance benchmarks performed in previous publications.
-
 To give a sense of the breadth of functionality provided by tskit,
-Table S2 lists properties and operations provided by tskit
-broken into broad categories.
+Table S2 lists properties and operations it supports, grouped
+into nine broad categories.
 There is no direct competitor to tskit, so a head-to-head feature
-comparison is not possible; instead, we contrast tskit with three
-Python libraries that target adjacent niches:
-ARGneedle-lib\cite{zhang2023biobank}, which infers and analyses
+comparison is not possible. Instead, we contrast it with three
+Python libraries from adjacent niches:
+ARGneedle-lib~\citep{zhang2023biobank}, which infers and analyses
 ancestral recombination graphs from biobank-scale data;
 the BTE interface (\url{https://github.com/jmcbroome/BTE})
-for matUtils\cite{mcbroome2021daily},
-a toolkit for manipulating and analysing mutation-annotated trees of SARS-CoV-2;
-and DendroPy\cite{sukumaran2010dendropy}, a long-established
-general-purpose phylogenetic scripting library.
+for matUtils~\citep{mcbroome2021daily},
+a toolkit for manipulating and analysing mutation-annotated trees
+of SARS-CoV-2; and DendroPy~\citep{sukumaran2010dendropy}, a
+long-established general-purpose phylogenetic scripting library.
 For each operation we mark whether the comparison library offers a
-comparable feature.
-The list is illustrative rather than exhaustive and reflects
-library state at the time of writing.
+fully comparable feature (\checkmark), a partial or restricted
+analogue ($\circ$), or none (blank). The list is illustrative
+rather than exhaustive and reflects library state at the time of
+writing.
 
 Tskit is the result of more than a decade of sustained development,
-and the algorithmic advances it represents have been described and benchmarked in
-a series of publications. The succinct tree sequence data format
-and the core algorithms for sequential tree construction
+and the algorithmic advances underlying it have been described and
+benchmarked in a series of publications. The succinct tree
+sequence data format and the sequential tree-construction algorithm
 were first introduced as part of the msprime coalescent
-simulator in \cite{kelleher2016efficient}. [Mention the
-theoretical algorithmic results.] This paper demonstrated
-the efficiency of the approach in a benchmark that illustrated
-that using the succinct tree sequence format and efficient
-tree iteration was more than a million times faster than accessing
-the trees individually using Newick and the currently available
-libraries in a simulation with 100,000 individuals.
+simulator~\citep{kelleher2016efficient}.
+The key algorithmic result is
+that, given the edge table of an ARG, the cost of iterating over
+the marginal trees along the genome scales with the number of trees
+and the edge differences between neighbouring trees, rather than
+with the sample size.
+The practical consequence was demonstrated in a benchmark
+where using the succinct tree sequence format and sequential
+iteration was more than a million times faster than reading the
+same trees individually from Newick using the standard libraries
+available at the time, for a simulation of 100,000 samples.
+The data model was subsequently generalised to enable
+forwards-time simulation~\citep{kelleher2018efficient}. This
+publication
+also introduced the columnar tables API and was the first paper in
+which the tskit library itself appeared as a distinct component.
+That paper gave a rigorous time- and space-complexity analysis of
+the ``simplify'' operation, which restricts an ARG to the
+history ancestral to a specified set of samples. ARG simplification
+is a fundamental operation with many applications~\cite{wong2024general},
+as  well as being the primitive operation making forwards-time simulation of ARGs
+tractable~\citep{haller2018tree}.
 
-The data model was generalised to enable forwards-time simulations
-in \cite{kelleher2018efficient}, and the columnar tables API.
-The tskit library itself was first introduced here. The critical
-``simplify'' method was described in detail and the time and space
-complexity analysed rigorously. This function is the core method
-required for forwards-time ARG simulations, and
-is now used in varied applications~\cite{haller2018tree}.
+The same representation subsequently enabled a second wave of
+benchmarks in downstream analysis. \citet{kelleher2019inferring}
+introduced tsinfer, the first ARG inference method to scale to
+hundreds of thousands of samples, together with the genealogical
+nearest neighbours (GNN) statistic, which summarises local ancestry
+directly from the ARG rather than from genotypes.
+\citet{ralph2020efficiently} then developed a general API for
+population-genetic statistics built around a duality between
+site-based and branch-based statistics on ARGs, supported by a
+rigorous theoretical analysis. Benchmarks against existing
+genotype-matrix implementations showed speedups of up to five
+orders of magnitude at a fraction of the memory footprint; this is
+the result summarised in the main paper as order-of-magnitude gains
+for single-site statistics. Individual and pedigree abstractions
+were added to the data model in the course of the work of
+\citet{andersontrocme2023genes}, whose whole-autosome simulation of
+nearly 1.5 million Quebec founders is cited in the main paper as a
+demonstration of forwards-time scalability. Around the same time,
+\citet{tsambos2023link} contributed the \texttt{link\_ancestors}
+operation for efficient local-ancestry tracking in tree sequences,
+with benchmarks showing it keeps pace with the simulations that
+produce its inputs.
 
-The genealogical nearest neighbourhs (GNN) statisic was introduced
-in~\cite{kelleher2019inferring}.
-
-The general API for computing population genetics statistics
-was introduced in~\cite{ralph2020efficiently}, which also introduced
-the concept of ``branch based statistics''. Along with a rigorous
-theoretical analysis, benchmarks against existing libraries showed
-that tskit's implementation was up to 100,000 times faster.
-
-[Summarise also: \cite{fritze2026forest}, \cite{lehmann2026on}
-and \cite{lee2026genetic}. Although Lee et al 2026 doesn't describe
-updates to tskit itself (I think) it has benchmarks of the GRM
-against argneedle-lib.]
+Most recently, the exposure of core tree-traversal primitives to
+Numba~\citep{lam2015numba} has allowed Python-level user code to
+JIT-compile ARG traversals at close to C speed. Two examples of
+this pattern in published tools are tstrait, a quantitative-trait
+simulator that walks the marginal trees to drop effects on
+edges~\citep{tagami2024tstrait}, and tsbrowse, an interactive ARG
+browser that computes quality-control statistics on the
+fly~\citep{karthikeyan2025tsbrowse}. At the algorithmic level,
+\citet{fritze2026forest} revisit the succinct tree sequence as an
+encoding of haplotypes rather than trees, and show that several
+operations that had historically been expressed tree-by-tree can be
+computed more directly from the edge table. \citet{lehmann2026on}
+develop the theory for computing genetic relatedness matrices
+(GRMs) directly from ARGs, and \citet{lee2026genetic} use this
+machinery for ARG-powered linear algebra in genomic prediction;
+the latter reports a head-to-head benchmark of the tskit-based GRM
+against ARGneedle-lib on the same inputs, which is the closest
+recent analogue to the direct feature comparison that Table S2
+cannot provide. The common thread across all of these results is
+that each advance compounds on the same underlying representation,
+so improvements at the core of tskit propagate automatically to
+every downstream tool built on top of it (Table S1, Figure 1 of the
+main paper).
 
 \input{functionality_table.tex}
 
