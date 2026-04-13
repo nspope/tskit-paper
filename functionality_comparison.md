@@ -405,6 +405,20 @@ serialisation format.
 
 ## 6. Ancestry and relatedness
 
+### Link ancestors
+- **tskit (✓):** [`TreeSequence.link_ancestors`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.link_ancestors)
+  (and the underlying [`TableCollection.link_ancestors`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TableCollection.link_ancestors))
+  returns an edge table describing, for each sample in a specified
+  set, which segments of the genome are inherited from which
+  members of a specified set of ancestors. Introduced in Tsambos
+  et al. (2023).
+- **ARGneedle-lib (blank):** no equivalent in the Python API; the
+  library's ARG primitives operate on the whole ARG rather than
+  restricting to sample-to-ancestor paths.
+- **matUtils/BTE (blank):** not applicable — a mutation-annotated
+  tree has no notion of multiple local ancestors along a genome.
+- **DendroPy (blank):** not applicable.
+
 ### IBD segment extraction
 - **tskit (✓):** [`TreeSequence.ibd_segments`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.ibd_segments)
   with multiple `within`/`between`, length, and MRCA filters.
@@ -459,6 +473,20 @@ serialisation format.
   coarser per-clade descendant count. Counted as partial.
 - **DendroPy (blank):** no direct equivalent (users iterate
   `leaf_iter` per node).
+
+### Extend haplotypes
+- **tskit (✓):** [`TreeSequence.extend_haplotypes`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.extend_haplotypes)
+  returns a new tree sequence in which the span of each ancestral
+  node is extended across adjacent marginal trees wherever the
+  relevant parent–child relationship continues to hold, producing
+  a more parsimonious edge table without changing the genotypes.
+  Introduced in Fritze et al. (2026).
+- **ARGneedle-lib (blank):** no equivalent operation; the
+  library's ARG editing primitives are restricted to trimming.
+- **matUtils/BTE (blank):** not applicable to mutation-annotated
+  trees, which lack the multi-tree structure this operation acts
+  on.
+- **DendroPy (blank):** not applicable.
 
 ---
 
