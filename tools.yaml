@@ -3,6 +3,15 @@
 # - inspecting GitHub dependents graph
 # - looking up conda dependents using script conda_lookup.py
 
+- name: Lorax
+  repo: https://github.com/pratikkatte/lorax/
+  interface: Python
+  type: visualisation
+  publication: https://doi.org/10.64898/2026.02.19.706861
+  package: pip
+  notes: Interactive visualization and exploration of Ancestral Recombination Graphs (ARGs)
+  implementation: Python,JavaScript
+  
 - name: Moonshine.jl
   repo: https://github.com/ps-pat/Moonshine.jl
   interface: Python
