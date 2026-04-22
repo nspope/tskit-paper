@@ -177,14 +177,20 @@ a toolkit for manipulating and analysing mutation-annotated trees
 of SARS-CoV-2; and DendroPy~\citep{sukumaran2010dendropy}, a
 mature and popular phylogenetic scripting library.
 For each operation we mark whether the comparison library offers a
-fully comparable feature (\checkmark), a partial or restricted
-analogue ($\circ$), or none (blank). Marks reflect library state
-at the time of writing.
-The many blank cells
-in Table S2 are not an artefact of a narrow choice of comparison
-libraries: most of the operations listed above were defined by the
-publications that introduced them and simply have no analogue
-elsewhere.
+fully comparable feature:
+\checkmark{} denotes full
+support, $\circ$ denotes partial or restricted support, and
+a blank cell denotes none.
+Each refers to documented methods in the Python library;
+additional functionality may be available in the underlying code
+(for instance, ARGneedle-lib's C++ code can be used to do
+efficient tree traversal and iteration, and this underlies
+other functionality in ARGneedle-lib).
+The comparisons were performed with
+tskit version 1.0.2,
+arg-needle-lib version 1.2.1,
+BTE version 0.9.3,
+and DendroPy version 5.0.8.
 
 \input{functionality_table.tex}
 
