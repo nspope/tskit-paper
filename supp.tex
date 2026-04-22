@@ -165,32 +165,54 @@ variants~\citep{pope2026tracing}.
 Tskit~1.0 is the point at which this
 decade-long accumulation of operations is brought together and
 stabilised under a single, guaranteed API.
-Table S2 lists properties and operations it supports, grouped
+Tskit is a software library and stable data model for
+representing ARGs using the succinct tree sequence encoding,
+and for performing core traversal, editing, and statistical operations on them.
+To situate tskit relative to existing software, we contrast its functionality
+with three Python-accessible libraries from adjacent niches.
+We compare with
+ARGneedle-lib~\citep{zhang2023biobank}, which infers and analyses ARGs from
+biobank-scale data,
+because it is the only other currently available Python-accessible software
+library that provides a lossless ARG representation.
+We compare with BTE (\url{https://github.com/jmcbroome/BTE}),
+the Python interface to matUtils~\citep{mcbroome2021daily},
+a toolkit for
+manipulating and analysing very large mutation-annotated trees of SARS-CoV-2,
+to illustrate the overlap between tskit and a virus-specialised tree toolkit.
+Finally, we compare with DendroPy~\citep{sukumaran2010dendropy},
+a mature and
+widely used phylogenetic scripting library with a rich suite of tree
+operations. Together, these comparisons illustrate both the breadth of general
+operations supported by tskit and the distinctive features that arise from its
+underlying ARG data model.
+
+Table S2 lists properties and operations that tskit supports,
+grouped
 into nine broad categories.
-We contrast tskit's functionality with three
-Python libraries from adjacent niches:
-ARGneedle-lib~\citep{zhang2023biobank}, which infers and analyses
-ancestral recombination graphs from biobank-scale data;
-the BTE interface (\url{https://github.com/jmcbroome/BTE})
-for matUtils~\citep{mcbroome2021daily},
-a toolkit for manipulating and analysing mutation-annotated trees
-of SARS-CoV-2; and DendroPy~\citep{sukumaran2010dendropy}, a
-mature and popular phylogenetic scripting library.
-For each operation we mark whether the comparison library offers a
-fully comparable feature:
-\checkmark{} denotes full
-support, $\circ$ denotes partial or restricted support, and
-a blank cell denotes none.
-Each refers to documented methods in the Python library;
-additional functionality may be available in the underlying code
-(for instance, ARGneedle-lib's C++ code can be used to do
-efficient tree traversal and iteration, and this underlies
-other functionality in ARGneedle-lib).
-The comparisons were performed with
-tskit version 1.0.2,
-arg-needle-lib version 1.2.1,
-BTE version 0.9.3,
-and DendroPy version 5.0.8.
+For each operation we mark whether each comparison library offers a
+comparable feature:
+\begin{itemize}
+\item[\checkmark{}] denotes full support, where the feature is
+documented and accessible in the Python API, comparable in scope
+to the tskit equivalent;
+\item[$\circ$] denotes partial or restricted support, where the feature is
+accessible but narrower in scope than the tskit equivalent, is available only
+indirectly via existing operations, or is not represented as a first-class part
+of the library’s data model;
+\item[] a blank cell indicates that no comparable feature is available through
+the Python API.
+\end{itemize}
+Our comparison is intended to assess reusable, documented library functionality
+rather than undocumented internal implementation details. Although
+ARGneedle-lib and matUtils are implemented in C++, neither provides a
+documented low-level API intended for downstream reuse, and we therefore score
+only functionality exposed through their Python interfaces (for matUtils, via BTE).
+Thus, underlying
+code may implement additional capabilities that are not counted here if they
+are not available as documented, reusable library operations. The comparisons
+were performed using tskit version 1.0.2, arg-needle-lib version 1.2.1, BTE
+version 0.9.3, and DendroPy version 5.0.8.
 
 \input{functionality_table.tex}
 
