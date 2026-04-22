@@ -13,3 +13,4 @@ tskit
 *.blg
 *.log
 *.out
+.*.swp

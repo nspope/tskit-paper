@@ -6,6 +6,11 @@
             offers a comparable feature: \checkmark{} denotes full
             support, $\circ$ denotes partial or restricted support, and
             a blank cell denotes none.
+            Each refers to documented methods in the Python library;
+            additional functionality may be available in the underlying code
+            (for instance, ARGneedle-lib's C++ code can be used to do
+            efficient tree traversal and iteration, and this underlies
+            other functionality in ARGneedle-lib).
             }
      ]{
         colspec=Xccc,
@@ -22,10 +27,11 @@ Operation & ARGneedle-lib & matUtils (BTE) & DendroPy \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{Data model}\\
 Lossless ARG representation & \checkmark & & \\
-Mutations integrated with topology & \checkmark & \checkmark & \\
-Integrated reference sequence & & & \\
+Mutations integrated with topology & \checkmark & \checkmark & $\circ$ \\
+Integrated reference sequence & & & $\circ$ \\
 Individual / ploidy abstraction & $\circ$ & & \\
-Population structure encoding & & & \\
+Pedigree encoding & & & \\
+Population abstraction & & $\circ$ & $\circ$ \\
 Columnar (NumPy) data access & & & \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{File formats}\\
@@ -39,17 +45,18 @@ NEXUS export & & & \checkmark \\
 Iterate trees along a genome & & & \\
 Tree traversal (pre-/post-order) & & \checkmark & \checkmark \\
 MRCA and common-ancestor queries & \checkmark & \checkmark & \checkmark \\
-Branch length and total branch length & $\circ$ & \checkmark & \checkmark \\
-Tree topology comparison (KC, RF) & \checkmark & & \checkmark \\
+Branch length and total branch length & \checkmark & \checkmark & \checkmark \\
+Tree topology comparison (e.g., KC, RF) & \checkmark & & \checkmark \\
 Tree balance and shape statistics & & $\circ$ & \checkmark \\
 Tree topology enumeration and ranking & & & \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{ARG/tree editing}\\
 Simplify (sample-restricted history) & & & \\
 Subset by sample or clade & & \checkmark & \checkmark \\
-Union of tree sequences & & & \\
-Keep / delete genomic intervals & $\circ$ & & \\
+Union of ARGs & & & \\
+Keep / delete genomic intervals & \checkmark & & \\
 Trim flanking regions & \checkmark & & \\
+Extend haplotypes & & & \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{Population-genetic statistics}\\
 Nucleotide diversity ($\pi$), segregating sites & & $\circ$ & \checkmark \\
@@ -58,31 +65,30 @@ $F_{ST}$ and divergence & & & \\
 $f$-statistics ($f_2$, $f_3$, $f_4$, Patterson's $D$) & & & \\
 Allele frequency spectrum (one-way and joint) & & & $\circ$ \\
 Linkage disequilibrium & & & \\
-Branch-mode statistics on trees & & & \\
+Branch-mode statistics & & & \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{Ancestry and relatedness}\\
-Link ancestors & & & \\
+Inheritance assignment & & & \\
 IBD segment extraction & & & \\
-Genealogical nearest neighbours (GNN) & & & \\
 Genetic relatedness matrix & \checkmark & & \\
-Genetic relatedness matrix-vector product & $\circ$ & & \\
+Genetic relatedness matrix-vector product & \checkmark & & \\
 Principal components analysis & & & \\
-Pairwise divergence / coalescence times & \checkmark & $\circ$ & $\circ$ \\
-Mean descendants & & $\circ$ & \\
-Extend haplotypes & & & \\
+Pairwise divergence / coalescence times & \checkmark & \checkmark & \checkmark \\
+Genealogical nearest neighbours (GNN) & & & \\
+& & & \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{Mutations and variants}\\
-Variant / genotype iteration & $\circ$ & \checkmark & \\
-Haplotype reconstruction & & \checkmark & \\
-Mutation placement / parsimony & \checkmark & \checkmark & \\
+Variant / genotype iteration & \checkmark & \checkmark & \checkmark \\
+Haplotype iteration & & \checkmark & \checkmark \\
+Mutation placement / parsimony & \checkmark & \checkmark & \checkmark \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{Visualisation}\\
-SVG tree drawing & & & \\
-Tree-sequence (multi-tree) visualisation & & & \\
+SVG/vector tree drawing & & $\circ$ & \checkmark \\
+ARG visualisation & & & \\
 ASCII / text tree rendering & & & \checkmark \\
 \SetRow{bg=gray!15}
 \SetCell[c=4]{c} \textbf{Metadata and provenance}\\
-Structured metadata with schemas & & $\circ$ & \\
+Structured metadata with schemas & & $\circ$ & $\circ$ \\
 Provenance recording and validation & & & \\
 \hline
 \end{tblr}
