@@ -624,6 +624,21 @@ serialisation format.
 
 - **DendroPy (blank):** no.
 
+### Pair coalescence rates
+
+- **tskit (✓):** [`TreeSequence.pair_coalescence_counts`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.pair_coalescence_counts)
+  calculates the average number of labelled pairs that coalesce in a given node or time window, using an efficient tree-traversal algorithm.
+  [`TreeSequence.pair_coalescence_rates`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.pair_coalescence_rates) estimates the hazard
+  (coalescence) rate from the pair coalescence counts with a Kaplan-Meier-like estimator.
+  [`TreeSequence.pair_coalescence_quantiles`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.pair_coalescence_quantiles) estimates
+  quantiles of the pair coalescence time distribution by inverting the empirical CDF.
+
+- **ARGneedle-lib (blank):** no.
+
+- **matUtils/BTE (blank):** no.
+
+- **DendroPy (blank):** no.
+
 ### Branch-mode statistics
 
 - **tskit (✓):** every statistic in `tskit.TreeSequence` accepts
