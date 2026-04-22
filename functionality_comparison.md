@@ -29,10 +29,96 @@ the markers in Table S2 with concrete pointers a reader can verify.
 - **DendroPy** — library reference:
   <https://jeetsukumaran.github.io/DendroPy/library/index.html>.
 
-A partial mark (◐) is used when
-the library can perform the operation only on restricted inputs, only
-via conversion through another library, or only with substantial
-caveats relative to the tskit equivalent.
+## Library versions and documentation snapshot
+
+The cell assignments below are defended against a frozen snapshot of
+each library's user-facing documentation and source, captured on
+**2026-04-11** and kept in the working directory `lib_docs/` (not
+tracked in git). The pinned versions are:
+
+| Library        | Version | Release date |
+|----------------|---------|--------------|
+| tskit          | 1.0.2   | (as per `tskit_python-api.html`) |
+| arg-needle-lib | 1.2.1   | 2025-11-07 |
+| UShER/matUtils | 0.6.6   | 2024-07-11 |
+| BTE            | 0.9.3   | (latest tagged release on GitHub at snapshot time) |
+| DendroPy       | 5.0.8   | (as per `dendropy_index.html`) |
+
+### Reproducing the snapshot
+
+Each file in `lib_docs/` was saved directly from the upstream source
+listed below. To re-create the snapshot, fetch each URL at the
+corresponding version tag.
+
+Rendered documentation pages (HTML):
+
+- `tskit_python-api.html` — <https://tskit.dev/tskit/docs/v1.0.2/python-api.html>
+- `argneedle_manual.html` — <https://palamaralab.github.io/software/argneedle/manual/>
+- `argneedlelib_readthedocs.html` — <https://arg-needle-lib.readthedocs.io/en/latest/>
+- `argneedlelib_modules.html` — <https://arg-needle-lib.readthedocs.io/en/latest/modules.html>
+- `matutils.html` — <https://usher-wiki.readthedocs.io/en/latest/matUtils.html>
+- `dendropy_index.html` — <https://jeetsukumaran.github.io/DendroPy/library/index.html>
+- `dendropy_popgenstat.html` — <https://jeetsukumaran.github.io/DendroPy/library/popgenstat.html>
+- `dendropy_treecompare.html` — <https://jeetsukumaran.github.io/DendroPy/library/treecompare.html>
+- `dendropy_treemodel.html` — <https://jeetsukumaran.github.io/DendroPy/library/treemodel.html>
+
+Raw source (at the version tags listed above):
+
+- `argneedle___init__.py`, `argneedle_convert.py`, `argneedle_grm.py`,
+  `argneedle_metrics.py`, `argneedle_pybind.cpp` — from
+  <https://github.com/PalamaraLab/arg-needle-lib/tree/v1.2.1> under
+  `src/arg_needle_lib/` (Python) and `src/` (C++).
+- `bte.pyx`, `bte_index.rst` — from
+  <https://github.com/jmcbroome/BTE/tree/v0.9.3> under `src/`
+  and `docs/source/` respectively.
+- `matutils.rst` — from
+  <https://github.com/yatisht/usher/tree/v0.6.6> under `docs/`.
+
+## Inclusion criterion
+
+An operation counts for a library only if it is directly accessible
+through that library's Python API. (For matUtils the Python API is
+BTE, since matUtils itself is CLI-only.)
+
+- **✓ (full):** documented and accessible, with no substantive
+  restriction relative to the tskit equivalent.
+- **◐ (partial):** accessible (importable and callable from Python)
+  but not clearly documented in the user-facing docs, or documented
+  but restricted to a subset of what tskit offers.
+- **blank:** not available through the Python API at all.
+
+## Low-level API availability
+
+The cell assignments above score each library's Python API. A separate
+question is whether a library also exposes a *documented C or C++
+library* that external code can link against directly.
+
+- **arg-needle-lib.** The ReadTheDocs site is titled "arg-needle-lib
+  Python API Reference" (`argneedlelib_readthedocs.html`) and its
+  toctree contains only Python module pages; there is no C++ API
+  reference or header-file documentation.
+  The manual notes that C++ code exists but does not document it:
+
+  > "For more advanced users, `arg-needle-lib` contains lower-level
+  > C++ functions that can be used by including `arg-needle-lib` as
+  > a C++ module. However, we have designed `arg-needle-lib` so that
+  > users can in most cases simply use the Python API. Please reach
+  > out if you have a particular use case not included in the
+  > Python API and would like to discuss options for having it
+  > implemented."
+
+- **matUtils / UShER.** The matUtils documentation (`matutils.rst`,
+  `matutils.html`) documents CLI subcommands only. The C++ code is
+  compiled into the `matUtils` and `usher` binaries; no library-level
+  API is documented for external C/C++ consumers.
+
+- **BTE.** BTE is itself a Python extension, not a standalone C++
+  library. From `bte_index.rst`:
+
+  > "BTE (Big Tree Explorer) is a Python extension for analysis and
+  > traversal of extremely large phylogenetic trees. […] BTE
+  > streamlines this process by exposing the heavily optimized MAT
+  > library underlying UShER and matUtils to Python."
 
 ---
 
@@ -111,22 +197,21 @@ The mutations/genotypes are covered by the next topics.
 
 - **DendroPy (blank):** no reference concept.
 
-### Individual / ploidy abstraction; pedigree encoding
+### Individual / ploidy abstraction
 
 - **tskit (✓):** the
   [`IndividualTable`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.IndividualTable)
   groups one or more sample nodes under a single biological
-  individual, capturing ploidy directly. This makes diploids,
-  pedigrees, and family-structured simulations first-class.
+  individual, capturing ploidy directly. This makes diploids and
+  family-structured simulations first-class.
 
-- **ARGneedle-lib (◐/blank):** there is no representation of individuals,
-  but the Python API has some diploid-aware methods: `exact_arg_grm` and
-  `monte_carlo_arg_grm` accept a `diploid=True` flag, and
-  `haploid_grm_to_diploid` operates on GRMs;
-  all these work by pairing neighbouring sample IDs as a haploid couple.
-  Counted as partial because there is no representation in data
-  besides this adjacent-IDs convention.
-  There is no pedigree encoding.
+- **ARGneedle-lib (◐):** there is no representation of individuals,
+  but the Python API has some diploid-aware methods: `exact_arg_grm`
+  and `monte_carlo_arg_grm` accept a `diploid=True` flag, and
+  `haploid_grm_to_diploid` operates on GRMs; all these work by
+  pairing neighbouring sample IDs as a haploid couple. Counted as
+  partial because there is no representation in data besides this
+  adjacent-IDs convention.
 
 - **matUtils/BTE (blank):** `MATNode` is a single-leaf abstraction;
   no individual or ploidy concept.
@@ -134,7 +219,20 @@ The mutations/genotypes are covered by the next topics.
 - **DendroPy (blank):** `Taxon` and `TaxonNamespace` carry labels
   but there is no individual-vs-genome distinction.
 
-### Population abstration
+### Pedigree encoding
+
+- **tskit (✓):** the
+  [`IndividualTable`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.IndividualTable)
+  records `parents` for each individual, so pedigrees are stored
+  natively inside the tree sequence.
+
+- **ARGneedle-lib (blank):** no pedigree encoding.
+
+- **matUtils/BTE (blank):** no pedigree encoding.
+
+- **DendroPy (blank):** no pedigree encoding.
+
+### Population abstraction
 
 - **tskit (✓):** the
   [`PopulationTable`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.PopulationTable)
@@ -253,7 +351,7 @@ serialisation format.
 - **tskit (✓):** [`TreeSequence.trees`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.trees)
   iterator and [`TreeSequence.breakpoints`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.breakpoints).
 
-- **ARGneedle-lib (blank):** the C++ side iterates local trees, 
+- **ARGneedle-lib (blank):** the C++ side iterates local trees,
   (see well-commented `arg-needle-lib/src/arg_traversal.hpp`),
   but the Python API does not expose a per-tree iterator.
 
@@ -297,10 +395,10 @@ serialisation format.
 
 - **tskit (✓):** `Tree.branch_length`, [`Tree.total_branch_length`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.Tree.total_branch_length).
 
-- **ARGneedle-lib (◐):** 
-  Per-edge length can be accessed by 
-  `e = arg.node(1).parent_edges()[0]; e.parent.height - e.child.height`;
-  `local_volume` and `total_volume` give total branch areas across all branches.
+- **ARGneedle-lib (✓):** per-edge length is `e.parent.height -
+  e.child.height` on any `ARGEdge` (for example
+  `arg.node(1).parent_edges()[0]`), and `local_volume` /
+  `total_volume` give total branch areas across all branches.
 
 - **matUtils/BTE (✓):** `MATNode.branch_length` /
   `MATNode.set_branch_length`.
@@ -394,7 +492,7 @@ serialisation format.
   `extract_tree_without_taxa`, `prune_taxa`,
   `prune_leaves_without_taxa`.
 
-### Union of tree sequences
+### Union of ARGs
 
 - **tskit (✓):** [`TreeSequence.union`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.union).
 
@@ -574,16 +672,6 @@ serialisation format.
 
 - **DendroPy (blank):** not applicable.
 
-### Genealogical nearest neighbours (GNN)
-
-- **tskit (✓):** [`TreeSequence.genealogical_nearest_neighbours`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.genealogical_nearest_neighbours).
-
-- **ARGneedle-lib (blank):** no.
-
-- **matUtils/BTE (blank):** no.
-
-- **DendroPy (blank):** no.
-
 ### Genetic relatedness matrix
 
 - **tskit (✓):** [`TreeSequence.genetic_relatedness_matrix`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.genetic_relatedness_matrix),
@@ -614,7 +702,7 @@ serialisation format.
 
 - **DendroPy (blank):** no.
 
-### PCA from ARGs
+### Principal components analysis
 
 - **tskit (✓):** [`TreeSequence.pca`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.pca)
   computes a randomised PCA directly from the tree sequence by
@@ -645,6 +733,15 @@ serialisation format.
   branch-length sums between taxa, and `node_ages` returns
   coalescence times for an ultrametric tree.
 
+### Genealogical nearest neighbours (GNN)
+
+- **tskit (✓):** [`TreeSequence.genealogical_nearest_neighbours`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.TreeSequence.genealogical_nearest_neighbours).
+
+- **ARGneedle-lib (blank):** no.
+
+- **matUtils/BTE (blank):** no.
+
+- **DendroPy (blank):** no.
 
 ---
 
@@ -741,7 +838,7 @@ serialisation format.
 
 ## 9. Metadata and provenance
 
-### Structured metadata
+### Structured metadata with schemas
 
 - **tskit (✓):** [`tskit.MetadataSchema`](https://tskit.dev/tskit/docs/stable/python-api.html#tskit.MetadataSchema)
   with JSON, struct, and permissive codecs; every table column has
